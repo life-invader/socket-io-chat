@@ -1,7 +1,7 @@
 /**
  * @file Сервис для работы с комнатами (API + socket)
  */
-import { socket } from '../api/socket';
+import { socket } from '@shared/api/socket';
 
 /**
  * Получить список комнат через REST

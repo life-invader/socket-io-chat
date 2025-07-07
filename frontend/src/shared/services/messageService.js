@@ -1,7 +1,7 @@
 /**
  * @file Сервис для работы с сообщениями (socket)
  */
-import { socket } from '../api/socket';
+import { socket } from '@shared/api/socket';
 
 /**
  * Подписаться на новые сообщения в комнате

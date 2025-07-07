@@ -3,13 +3,14 @@
  */
 
 import React, { useEffect } from 'react';
-import { UserSelect } from '../../features/user-select/UserSelect';
-import { RoomList } from '../../features/roomList/RoomList';
-import { Chat } from '../../features/chat/Chat';
-import { useUserStore } from '../../shared/store/userSlice';
-import { useRoomStore } from '../../shared/store/roomSlice';
-import { fetchAvailableUsers, subscribeUsersUpdate } from '../../shared/services/userService';
-import { socket } from '../../shared/api/socket';
+import { UserSelect } from '@features/user-select/UserSelect';
+import { RoomList } from '@features/roomList/RoomList';
+import { Chat } from '@features/chat/Chat';
+import { useUserStore } from '@shared/store/userSlice';
+import { useRoomStore } from '@shared/store/roomSlice';
+import { fetchAvailableUsers, subscribeUsersUpdate } from '@shared/services/userService';
+import { socket } from '@shared/api/socket';
+import './style.css';
 
 /**
  * MainPage — главная страница приложения

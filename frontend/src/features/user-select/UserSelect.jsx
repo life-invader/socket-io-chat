@@ -3,10 +3,10 @@
  */
 
 import React, { useState } from 'react';
-import { usersList } from '../../entities/user';
-import { useUserStore } from '../../shared/store/userSlice';
-import { joinUser } from '../../shared/services/userService';
-import './userSelect.css';
+import { usersList } from '@entities/user';
+import { useUserStore } from '@shared/store/userSlice';
+import { joinUser } from '@shared/services/userService';
+import './style.css';
 
 /**
  * @typedef {Object} UserSelectProps

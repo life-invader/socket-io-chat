@@ -3,9 +3,9 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { useRoomStore } from '../../shared/store/roomSlice';
-import { fetchRooms, subscribeRoomsUpdate, joinRoom } from '../../shared/services/roomService';
-import './roomList.css';
+import { useRoomStore } from '@shared/store/roomSlice';
+import { fetchRooms, subscribeRoomsUpdate, joinRoom } from '@shared/services/roomService';
+import './style.css';
 
 /**
  * @typedef {Object} RoomListProps

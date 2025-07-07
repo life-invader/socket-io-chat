@@ -3,9 +3,9 @@
  */
 
 import React, { useEffect, useRef, useState } from 'react';
-import { useMessageStore } from '../../shared/store/messageSlice';
-import { subscribeMessages, sendMessage } from '../../shared/services/messageService';
-import './chat.css';
+import { useMessageStore } from '@shared/store/messageSlice';
+import { subscribeMessages, sendMessage } from '@shared/services/messageService';
+import './style.css';
 
 /**
  * @typedef {Object} ChatProps

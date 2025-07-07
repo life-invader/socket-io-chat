@@ -4,7 +4,7 @@
 
 import React from 'react';
 import { MainPage } from '../pages/main/MainPage';
-import '../pages/main/index.css';
+import './style/index.css';
 
 /**
  * App — основной компонент приложения

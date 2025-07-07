@@ -1,7 +1,7 @@
 /**
  * @file Сервис для работы с пользователями (API + socket)
  */
-import { socket } from '../api/socket';
+import { socket } from '@shared/api/socket';
 
 /**
  * Получить список пользователей через REST
