@@ -1,6 +1,7 @@
 /**
  * @file Zustand-слайс для пользователя
  */
+
 import { create } from 'zustand';
 
 /**

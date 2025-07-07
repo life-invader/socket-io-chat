@@ -1,6 +1,7 @@
 /**
  * @file Zustand-слайс для комнат
  */
+
 import { create } from 'zustand';
 
 /**

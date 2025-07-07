@@ -2,9 +2,9 @@
  * @file Фича выбора пользователя. Селект с блокировкой занятых пользователей.
  */
 
-import React, { useState } from 'react';
-import { joinUser } from '@shared/model/socket/userService';
-import { userStore } from '@shared/model/store';
+import { useState } from 'react';
+import { appStore, userStore } from '@shared/model/store';
+import { userService } from '@shared/model/socket';
 import './style.css';
 
 /**
@@ -18,22 +18,23 @@ import './style.css';
  * @param {UserSelectProps} props
  * @returns {JSX.Element}
  */
-export function UserSelect() {
-  const availableUsers = userStore.useUserStore(userStore.selectAvailableUsers);
+export function SelectUser({ availableUsers }) {
+  const setAppState = appStore.useAppStore(appStore.selectSetAppState);
   const setUser = userStore.useUserStore(userStore.selectSetUser);
-
   const [selected, setSelected] = useState('');
-  const [error, setError] = useState('');
 
   /**
    * Обработка выбора пользователя
    * @param {React.ChangeEvent<HTMLSelectElement>} e
    */
-  function handleChange(e) {
-    setSelected(e.target.value);
-    setError('');
-    joinUser(e.target.value);
-    setUser(e.target.value);
+  function handleChange(evt) {
+    const { target } = evt;
+    const value = target.value;
+
+    setSelected(value);
+    setUser(value);
+    userService.joinUser(value);
+    setAppState('room');
   }
 
   return (
@@ -56,8 +57,6 @@ export function UserSelect() {
           </option>
         ))}
       </select>
-
-      {error && <div className="userSelect__error">{error}</div>}
     </div>
   );
 }

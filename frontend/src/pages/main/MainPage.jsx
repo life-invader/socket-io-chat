@@ -2,40 +2,30 @@
  * @file Главная страница с выбором пользователя.
  */
 
-import React, { useEffect } from 'react';
-import { UserSelect } from '@features/user-select/UserSelect';
+import { HomeScreen } from '@widgets/homeScreen';
 import { RoomList } from '@features/roomList/RoomList';
 import { Chat } from '@features/chat/Chat';
-import { roomStore, userStore } from '@shared/model/store';
-import { socket, userService } from '@shared/model/socket';
-import { userActions } from '@entities/user';
+import { appStore } from '@shared/model/store';
 import './style.css';
 
 /**
  * MainPage — главная страница приложения
  * @returns {JSX.Element}
  */
-export function MainPage() {
-  const user = userStore.useUserStore(userStore.selectUser);
-  const setAvailableUsers = userStore.useUserStore(userStore.selectSetAvailableUsers);
-  const room = roomStore.useRoomStore(roomStore.selectRoom);
+export const MainPage = () => {
+  const appState = appStore.useAppStore(appStore.selectAppState);
 
-  useEffect(() => {
-    socket.connect();
-    userActions.fetchAvailableUsers().then(setAvailableUsers);
-    const unsub = userService.subscribeUsersUpdate(setAvailableUsers);
+  const components = {
+    home: HomeScreen,
+    room: RoomList,
+    chat: Chat,
+  };
 
-    return () => {
-      socket.disconnect();
-      unsub();
-    };
-  }, [setAvailableUsers]);
+  const CurrentScreen = components[appState];
 
   return (
-    <div>
-      {!user && <UserSelect />}
-      {user && !room && <RoomList user={user} />}
-      {user && room && <Chat user={user} room={room} />}
-    </div>
+    <>
+      <CurrentScreen />
+    </>
   );
-}
+};

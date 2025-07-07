@@ -60,9 +60,11 @@ function initSocket(io) {
      */
     socket.on('disconnect', () => {
       const userName = socket.data.userName;
+
       if (userName) {
         userService.removeActiveUser(userName);
         roomService.removeUserFromRooms(userName);
+
         io.emit('users:update', getAvailableUsers(allUsers, userService.getActiveUsers()));
         io.emit('rooms:update', getRoomsInfo(roomService.getRooms()));
       }
