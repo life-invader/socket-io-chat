@@ -74,61 +74,62 @@ function getRoomsInfo() {
 // Socket.IO
 initSocket(io);
 
-io.on('connection', (socket) => {
-  // Отправляем актуальные данные сразу при подключении
-  socket.emit('users:update', getAvailableUsers());
-  socket.emit('rooms:update', getRoomsInfo());
-  /**
-   * @param {string} userName
-   */
-  socket.on('user:join', (userName) => {
-    if (activeUsers[userName]) {
-      socket.emit('user:join:error', 'Пользователь уже занят');
-      return;
-    }
-    activeUsers[userName] = socket.id;
-    socket.data.userName = userName;
-    io.emit('users:update', getAvailableUsers());
-  });
+// io.on('connection', (socket) => {
+//   // Отправляем актуальные данные сразу при подключении
+//   socket.emit('users:update', getAvailableUsers());
+//   socket.emit('rooms:update', getRoomsInfo());
 
-  /**
-   * @param {string} roomName
-   */
-  socket.on('room:join', (roomName) => {
-    const userName = socket.data.userName;
-    if (!userName) return;
-    if (!rooms[roomName]) rooms[roomName] = new Set();
-    rooms[roomName].add(userName);
-    socket.join(roomName);
-    io.emit('rooms:update', getRoomsInfo());
-  });
+//   /**
+//    * @param {string} userName
+//    */
+//   socket.on('user:join', (userName) => {
+//     if (activeUsers[userName]) {
+//       socket.emit('user:join:error', 'Пользователь уже занят');
+//       return;
+//     }
+//     activeUsers[userName] = socket.id;
+//     socket.data.userName = userName;
+//     io.emit('users:update', getAvailableUsers());
+//   });
 
-  /**
-   * @param {string} roomName
-   * @param {string} message
-   */
-  socket.on('message', ({ roomName, message }) => {
-    const userName = socket.data.userName;
-    if (!userName || !roomName) return;
-    io.to(roomName).emit('message', {
-      user: userName,
-      message,
-      time: new Date().toISOString(),
-    });
-  });
+//   /**
+//    * @param {string} roomName
+//    */
+//   socket.on('room:join', (roomName) => {
+//     const userName = socket.data.userName;
+//     if (!userName) return;
+//     if (!rooms[roomName]) rooms[roomName] = new Set();
+//     rooms[roomName].add(userName);
+//     socket.join(roomName);
+//     io.emit('rooms:update', getRoomsInfo());
+//   });
 
-  socket.on('disconnect', () => {
-    const userName = socket.data.userName;
-    if (userName) {
-      delete activeUsers[userName];
-      for (const users of Object.values(rooms)) {
-        users.delete(userName);
-      }
-      io.emit('users:update', getAvailableUsers());
-      io.emit('rooms:update', getRoomsInfo());
-    }
-  });
-});
+//   /**
+//    * @param {string} roomName
+//    * @param {string} message
+//    */
+//   socket.on('message', ({ roomName, message }) => {
+//     const userName = socket.data.userName;
+//     if (!userName || !roomName) return;
+//     io.to(roomName).emit('message', {
+//       user: userName,
+//       message,
+//       time: new Date().toISOString(),
+//     });
+//   });
+
+//   socket.on('disconnect', () => {
+//     const userName = socket.data.userName;
+//     if (userName) {
+//       delete activeUsers[userName];
+//       for (const users of Object.values(rooms)) {
+//         users.delete(userName);
+//       }
+//       io.emit('users:update', getAvailableUsers());
+//       io.emit('rooms:update', getRoomsInfo());
+//     }
+//   });
+// });
 
 app.get('/users', (req, res) => {
   res.json({ users: getAvailableUsers() });
@@ -139,6 +140,5 @@ app.get('/rooms', (req, res) => {
 });
 
 server.listen(PORT, () => {
-  // eslint-disable-next-line no-console
   console.log(`Server listening on port ${PORT}`);
 });

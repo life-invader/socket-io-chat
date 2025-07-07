@@ -25,6 +25,7 @@ function initSocket(io) {
         socket.emit('user:join:error', 'Пользователь уже занят');
         return;
       }
+
       userService.addActiveUser(userName, socket.id);
       socket.data.userName = userName;
       io.emit('users:update', getAvailableUsers(allUsers, userService.getActiveUsers()));

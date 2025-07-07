@@ -1,0 +1,65 @@
+:root {
+  --mainBg: #f5f6fa;
+  --mainText: #222;
+  --accent: #4f8cff;
+  --error: #ff4f4f;
+  --borderRadius: 12px;
+  --inputPadding: 12px;
+  --fontFamily: 'Segoe UI', Arial, sans-serif;
+}
+
+.userSelect {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--mainBg);
+  padding: 24px;
+  border-radius: var(--borderRadius);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+  font-family: var(--fontFamily);
+  max-width: 350px;
+  margin: 32px auto;
+  width: 100%;
+}
+
+.userSelect__label {
+  margin-bottom: 12px;
+  font-size: 1.1rem;
+  color: var(--mainText);
+}
+
+.userSelect__select {
+  padding: var(--inputPadding);
+  border-radius: var(--borderRadius);
+  border: 1px solid var(--accent);
+  font-size: 1rem;
+  width: 100%;
+  margin-bottom: 10px;
+  background: #fff;
+  color: var(--mainText);
+  transition: border 0.2s;
+}
+
+.userSelect__select:disabled {
+  background: #eee;
+  color: #aaa;
+}
+
+.userSelect__error {
+  color: var(--error);
+  font-size: 0.95rem;
+  margin-top: 4px;
+}
+
+@media (max-width: 480px) {
+  .userSelect {
+    padding: 12px;
+    max-width: 98vw;
+  }
+  .userSelect__label {
+    font-size: 1rem;
+  }
+  .userSelect__select {
+    font-size: 0.95rem;
+  }
+}

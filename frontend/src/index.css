@@ -1,0 +1,43 @@
+/* Глобальные CSS-переменные */
+:root {
+  --mainBg: #f5f6fa;
+  --mainText: #222;
+  --accent: #4f8cff;
+  --error: #ff4f4f;
+  --borderRadius: 12px;
+  --inputPadding: 12px;
+  --fontFamily: 'Segoe UI', Arial, sans-serif;
+}
+
+/* Сброс стилей и базовые настройки */
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: var(--mainBg);
+  color: var(--mainText);
+  font-family: var(--fontFamily);
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+@media (max-width: 480px) {
+  html {
+    font-size: 15px;
+  }
+}
