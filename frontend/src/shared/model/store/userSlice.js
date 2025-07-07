@@ -17,3 +17,8 @@ export const useUserStore = create((set) => ({
   setUser: (user) => set({ user }),
   setAvailableUsers: (availableUsers) => set({ availableUsers }),
 }));
+
+export const selectUser = (store) => store.user;
+export const selectAvailableUsers = (store) => store.availableUsers;
+export const selectSetUser = (store) => store.setUser;
+export const selectSetAvailableUsers = (store) => store.setAvailableUsers;

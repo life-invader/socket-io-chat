@@ -3,8 +3,9 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { useRoomStore } from '@shared/store/roomSlice';
-import { fetchRooms, subscribeRoomsUpdate, joinRoom } from '@shared/services/roomService';
+import { roomStore } from '@shared/model/store';
+import { roomActions } from '@entities/room';
+import { roomService } from '@shared/model/socket';
 import './style.css';
 
 /**
@@ -18,28 +19,19 @@ import './style.css';
  * @returns {JSX.Element}
  */
 export function RoomList({ user }) {
-  const rooms = useRoomStore((s) => s.rooms);
-  const setRooms = useRoomStore((s) => s.setRooms);
-  const setRoom = useRoomStore((s) => s.setRoom);
+  const rooms = roomStore.useRoomStore(roomStore.selectRooms);
+  const setRoom = roomStore.useRoomStore(roomStore.selectSetRoom);
+  const setRooms = roomStore.useRoomStore(roomStore.selectSetRooms);
 
   const [newRoom, setNewRoom] = useState('');
   const [error, setError] = useState('');
-
-  useEffect(() => {
-    fetchRooms().then(setRooms);
-    const unsub = subscribeRoomsUpdate(setRooms);
-
-    return () => {
-      unsub();
-    };
-  }, [setRooms]);
 
   /**
    * Обработка выбора комнаты
    * @param {string} roomName
    */
   function handleSelect(roomName) {
-    joinRoom(roomName);
+    roomService.joinRoom(roomName);
     setRoom(roomName);
   }
 
@@ -51,11 +43,21 @@ export function RoomList({ user }) {
     e.preventDefault();
     if (!newRoom.trim()) return setError('Введите название комнаты');
     if (rooms[newRoom]) return setError('Комната уже существует');
-    joinRoom(newRoom);
+
+    roomService.joinRoom(newRoom);
     setNewRoom('');
     setError('');
     setRoom(newRoom);
   }
+
+  useEffect(() => {
+    roomActions.fetchRooms().then(setRooms);
+    const unsub = roomService.subscribeRoomsUpdate(setRooms);
+
+    return () => {
+      unsub();
+    };
+  }, [setRooms]);
 
   return (
     <div className="roomList">
@@ -66,6 +68,7 @@ export function RoomList({ user }) {
           onChange={(e) => setNewRoom(e.target.value)}
           placeholder="Новая комната"
         />
+
         <button className="roomList__createBtn" type="submit">
           Создать
         </button>
@@ -82,6 +85,7 @@ export function RoomList({ user }) {
               disabled={users.includes(user)}>
               {room} <span className="roomList__users">({users.length} чел.)</span>
             </button>
+
             <div className="roomList__usersList">
               {users.map((u) => (
                 <span key={u} className="roomList__user">

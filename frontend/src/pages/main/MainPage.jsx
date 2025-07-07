@@ -6,10 +6,9 @@ import React, { useEffect } from 'react';
 import { UserSelect } from '@features/user-select/UserSelect';
 import { RoomList } from '@features/roomList/RoomList';
 import { Chat } from '@features/chat/Chat';
-import { useUserStore } from '@shared/store/userSlice';
-import { useRoomStore } from '@shared/store/roomSlice';
-import { fetchAvailableUsers, subscribeUsersUpdate } from '@shared/services/userService';
-import { socket } from '@shared/api/socket';
+import { roomStore, userStore } from '@shared/model/store';
+import { socket, userService } from '@shared/model/socket';
+import { userActions } from '@entities/user';
 import './style.css';
 
 /**
@@ -17,14 +16,14 @@ import './style.css';
  * @returns {JSX.Element}
  */
 export function MainPage() {
-  const user = useUserStore((s) => s.user);
-  const setAvailableUsers = useUserStore((s) => s.setAvailableUsers);
-  const room = useRoomStore((s) => s.room);
+  const user = userStore.useUserStore(userStore.selectUser);
+  const setAvailableUsers = userStore.useUserStore(userStore.selectSetAvailableUsers);
+  const room = roomStore.useRoomStore(roomStore.selectRoom);
 
   useEffect(() => {
     socket.connect();
-    fetchAvailableUsers().then(setAvailableUsers);
-    const unsub = subscribeUsersUpdate(setAvailableUsers);
+    userActions.fetchAvailableUsers().then(setAvailableUsers);
+    const unsub = userService.subscribeUsersUpdate(setAvailableUsers);
 
     return () => {
       socket.disconnect();

@@ -3,8 +3,8 @@
  */
 
 import React, { useEffect, useRef, useState } from 'react';
-import { useMessageStore } from '@shared/store/messageSlice';
-import { subscribeMessages, sendMessage } from '@shared/services/messageService';
+import { useMessageStore } from '@shared/model/store/messageSlice';
+import { subscribeMessages, sendMessage } from '@shared/model/socket/messageService';
 import './style.css';
 
 /**

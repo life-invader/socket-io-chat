@@ -3,9 +3,8 @@
  */
 
 import React, { useState } from 'react';
-import { usersList } from '@entities/user';
-import { useUserStore } from '@shared/store/userSlice';
-import { joinUser } from '@shared/services/userService';
+import { joinUser } from '@shared/model/socket/userService';
+import { userStore } from '@shared/model/store';
 import './style.css';
 
 /**
@@ -20,8 +19,9 @@ import './style.css';
  * @returns {JSX.Element}
  */
 export function UserSelect() {
-  const availableUsers = useUserStore((s) => s.availableUsers);
-  const setUser = useUserStore((s) => s.setUser);
+  const availableUsers = userStore.useUserStore(userStore.selectAvailableUsers);
+  const setUser = userStore.useUserStore(userStore.selectSetUser);
+
   const [selected, setSelected] = useState('');
   const [error, setError] = useState('');
 
@@ -50,9 +50,9 @@ export function UserSelect() {
         <option value="" disabled>
           -- Выберите --
         </option>
-        {usersList.map((user) => (
-          <option key={user.name} value={user.name} disabled={!availableUsers.includes(user.name)}>
-            {user.name} {!availableUsers.includes(user.name) ? '(занят)' : ''}
+        {availableUsers.map((user) => (
+          <option key={user} value={user.name}>
+            {user}
           </option>
         ))}
       </select>

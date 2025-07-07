@@ -1,17 +1,7 @@
 /**
  * @file Сервис для работы с пользователями (API + socket)
  */
-import { socket } from '@shared/api/socket';
-
-/**
- * Получить список пользователей через REST
- * @returns {Promise<string[]>}
- */
-export async function fetchAvailableUsers() {
-  const res = await fetch('http://localhost:4000/users');
-  const data = await res.json();
-  return data.users;
-}
+import { socket } from './index';
 
 /**
  * Подписаться на обновления пользователей через socket

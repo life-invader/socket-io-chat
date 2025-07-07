@@ -1,17 +1,8 @@
 /**
  * @file Сервис для работы с комнатами (API + socket)
  */
-import { socket } from '@shared/api/socket';
 
-/**
- * Получить список комнат через REST
- * @returns {Promise<Object<string, string[]>>}
- */
-export async function fetchRooms() {
-  const res = await fetch('http://localhost:4000/rooms');
-  const data = await res.json();
-  return data.rooms;
-}
+import { socket } from './index';
 
 /**
  * Подписаться на обновления комнат через socket
