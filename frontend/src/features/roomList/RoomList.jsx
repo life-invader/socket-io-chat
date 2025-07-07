@@ -3,14 +3,13 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { fetchRooms } from '../../entities/room';
-import { socket } from '../../shared/api/socket';
+import { useRoomStore } from '../../shared/store/roomSlice';
+import { fetchRooms, subscribeRoomsUpdate, joinRoom } from '../../shared/services/roomService';
 import './roomList.css';
 
 /**
  * @typedef {Object} RoomListProps
  * @property {string} user - Имя текущего пользователя
- * @property {(roomName: string) => void} onSelect
  */
 
 /**
@@ -18,26 +17,30 @@ import './roomList.css';
  * @param {RoomListProps} props
  * @returns {JSX.Element}
  */
-export function RoomList({ user, onSelect }) {
-  const [rooms, setRooms] = useState({});
+export function RoomList({ user }) {
+  const rooms = useRoomStore((s) => s.rooms);
+  const setRooms = useRoomStore((s) => s.setRooms);
+  const setRoom = useRoomStore((s) => s.setRoom);
+
   const [newRoom, setNewRoom] = useState('');
   const [error, setError] = useState('');
 
   useEffect(() => {
     fetchRooms().then(setRooms);
-    socket.on('rooms:update', setRooms);
+    const unsub = subscribeRoomsUpdate(setRooms);
+
     return () => {
-      socket.off('rooms:update', setRooms);
+      unsub();
     };
-  }, []);
+  }, [setRooms]);
 
   /**
    * Обработка выбора комнаты
    * @param {string} roomName
    */
   function handleSelect(roomName) {
-    socket.emit('room:join', roomName);
-    onSelect(roomName);
+    joinRoom(roomName);
+    setRoom(roomName);
   }
 
   /**
@@ -48,10 +51,10 @@ export function RoomList({ user, onSelect }) {
     e.preventDefault();
     if (!newRoom.trim()) return setError('Введите название комнаты');
     if (rooms[newRoom]) return setError('Комната уже существует');
-    socket.emit('room:join', newRoom);
+    joinRoom(newRoom);
     setNewRoom('');
     setError('');
-    onSelect(newRoom);
+    setRoom(newRoom);
   }
 
   return (
@@ -67,7 +70,9 @@ export function RoomList({ user, onSelect }) {
           Создать
         </button>
       </form>
+
       {error && <div className="roomList__error">{error}</div>}
+
       <ul className="roomList__list">
         {Object.entries(rooms).map(([room, users]) => (
           <li key={room} className="roomList__item">

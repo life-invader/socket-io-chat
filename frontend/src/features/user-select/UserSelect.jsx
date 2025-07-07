@@ -4,12 +4,14 @@
 
 import React, { useState } from 'react';
 import { usersList } from '../../entities/user';
-import { socket } from '../../shared/api/socket';
+import { useUserStore } from '../../shared/store/userSlice';
+import { joinUser } from '../../shared/services/userService';
 import './userSelect.css';
 
 /**
  * @typedef {Object} UserSelectProps
  * @property {(userName: string) => void} onSelect
+ * @property {string[]} availableUsers
  */
 
 /**
@@ -17,7 +19,9 @@ import './userSelect.css';
  * @param {UserSelectProps} props
  * @returns {JSX.Element}
  */
-export function UserSelect({ onSelect, availableUsers }) {
+export function UserSelect() {
+  const availableUsers = useUserStore((s) => s.availableUsers);
+  const setUser = useUserStore((s) => s.setUser);
   const [selected, setSelected] = useState('');
   const [error, setError] = useState('');
 
@@ -28,8 +32,8 @@ export function UserSelect({ onSelect, availableUsers }) {
   function handleChange(e) {
     setSelected(e.target.value);
     setError('');
-    socket.emit('user:join', e.target.value);
-    onSelect(e.target.value);
+    joinUser(e.target.value);
+    setUser(e.target.value);
   }
 
   return (

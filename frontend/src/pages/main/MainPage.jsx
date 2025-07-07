@@ -2,41 +2,39 @@
  * @file Главная страница с выбором пользователя.
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { UserSelect } from '../../features/user-select/UserSelect';
-import { RoomList } from '../../features/room-list';
-import { Chat } from '../../features/chat';
+import { RoomList } from '../../features/roomList/RoomList';
+import { Chat } from '../../features/chat/Chat';
+import { useUserStore } from '../../shared/store/userSlice';
+import { useRoomStore } from '../../shared/store/roomSlice';
+import { fetchAvailableUsers, subscribeUsersUpdate } from '../../shared/services/userService';
 import { socket } from '../../shared/api/socket';
-import { usersList } from '../../entities/user';
 
 /**
  * MainPage — главная страница приложения
  * @returns {JSX.Element}
  */
 export function MainPage() {
-  const [availableUsers, setAvailableUsers] = useState(usersList.map((u) => u.name));
-  const [user, setUser] = useState('');
-  const [room, setRoom] = useState('');
+  const user = useUserStore((s) => s.user);
+  const setAvailableUsers = useUserStore((s) => s.setAvailableUsers);
+  const room = useRoomStore((s) => s.room);
 
   useEffect(() => {
     socket.connect();
-
-    fetch('http://localhost:4000/users')
-      .then((res) => res.json())
-      .then((data) => setAvailableUsers(data.users));
-
-    socket.on('users:update', setAvailableUsers);
+    fetchAvailableUsers().then(setAvailableUsers);
+    const unsub = subscribeUsersUpdate(setAvailableUsers);
 
     return () => {
       socket.disconnect();
-      socket.off('users:update', setAvailableUsers);
+      unsub();
     };
-  }, []);
+  }, [setAvailableUsers]);
 
   return (
     <div>
-      {!user && <UserSelect onSelect={setUser} availableUsers={availableUsers} />}
-      {user && !room && <RoomList user={user} onSelect={setRoom} />}
+      {!user && <UserSelect />}
+      {user && !room && <RoomList user={user} />}
       {user && room && <Chat user={user} room={room} />}
     </div>
   );

@@ -3,7 +3,8 @@
  */
 
 import React, { useEffect, useRef, useState } from 'react';
-import { socket } from '../../shared/api/socket';
+import { useMessageStore } from '../../shared/store/messageSlice';
+import { subscribeMessages, sendMessage } from '../../shared/services/messageService';
 import './chat.css';
 
 /**
@@ -18,26 +19,22 @@ import './chat.css';
  * @returns {JSX.Element}
  */
 export function Chat({ user, room }) {
-  const [messages, setMessages] = useState([]);
+  const messages = useMessageStore((s) => s.messages);
+  const addMessage = useMessageStore((s) => s.addMessage);
+  const clearMessages = useMessageStore((s) => s.clearMessages);
+
   const [input, setInput] = useState('');
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
-    setMessages([]); // Очищаем чат при смене комнаты
-    socket.on('message', handleMessage);
+    clearMessages();
+    const unsub = subscribeMessages(addMessage);
+
     return () => {
-      socket.off('message', handleMessage);
+      unsub();
     };
     // eslint-disable-next-line
-  }, [room]);
-
-  /**
-   * Обработка входящего сообщения
-   * @param {import('../../entities/message').Message} msg
-   */
-  function handleMessage(msg) {
-    setMessages((prev) => [...prev, msg]);
-  }
+  }, [room, addMessage, clearMessages]);
 
   /**
    * Отправка сообщения
@@ -46,7 +43,7 @@ export function Chat({ user, room }) {
   function handleSend(e) {
     e.preventDefault();
     if (!input.trim()) return;
-    socket.emit('message', { roomName: room, message: input });
+    sendMessage(room, input);
     setInput('');
   }
 
@@ -69,6 +66,7 @@ export function Chat({ user, room }) {
         ))}
         <div ref={messagesEndRef} />
       </div>
+
       <form className="chat__form" onSubmit={handleSend}>
         <input
           className="chat__input"
