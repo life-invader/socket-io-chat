@@ -37,6 +37,7 @@ function initSocket(io) {
     socket.on('room:join', (roomName) => {
       const userName = socket.data.userName;
       if (!userName) return;
+
       roomService.addUserToRoom(roomName, userName);
       socket.join(roomName);
       io.emit('rooms:update', getRoomsInfo(roomService.getRooms()));
@@ -48,6 +49,7 @@ function initSocket(io) {
     socket.on('message', ({ roomName, message }) => {
       const userName = socket.data.userName;
       if (!userName || !roomName) return;
+
       io.to(roomName).emit('message', {
         user: userName,
         message,

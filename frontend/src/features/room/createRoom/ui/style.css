@@ -1,0 +1,35 @@
+.createRoom {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.createRoom__input {
+  flex: 1;
+  padding: var(--inputPadding);
+  border-radius: var(--borderRadius);
+  border: 1px solid var(--accent);
+  font-size: 1rem;
+}
+
+.createRoom__createBtn {
+  padding: var(--inputPadding);
+  border-radius: var(--borderRadius);
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.createRoom__createBtn:hover {
+  background: #356ad8;
+}
+
+@media (max-width: 480px) {
+  .createRoom__createBtn {
+    font-size: 0.95rem;
+    padding: 8px;
+  }
+}

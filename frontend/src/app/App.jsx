@@ -2,24 +2,16 @@
  * @file Основной компонент приложения.
  */
 
-import { useEffect } from 'react';
 import { MainPage } from '@pages/main/MainPage';
-import { socket } from '@shared/model/socket';
 import './style/index.css';
+import { useSocketConnect } from '@shared/model/socket/hooks';
 
 /**
  * App — основной компонент приложения
  * @returns {JSX.Element}
  */
 const App = () => {
-  useEffect(() => {
-    socket.connect();
-
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
-
+  useSocketConnect();
   return <MainPage />;
 };
 

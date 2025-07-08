@@ -20,6 +20,10 @@ import { create } from 'zustand';
 
 export const useMessageStore = create((set) => ({
   messages: [],
-  addMessage: (msg) => set((state) => ({ messages: [...state.messages, msg] })),
+  addMessage: (msg) =>
+    set((state) => {
+      console.log(state);
+      return { messages: [...state.messages, msg] };
+    }),
   clearMessages: () => set({ messages: [] }),
 }));

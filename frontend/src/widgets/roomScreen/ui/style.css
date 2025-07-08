@@ -1,0 +1,31 @@
+.roomScreen {
+  width: 100%;
+  max-width: 400px;
+  margin: 24px auto;
+  background: var(--mainBg);
+  border-radius: var(--borderRadius);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+  padding: 20px;
+  font-family: var(--fontFamily);
+}
+
+.roomScreen__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.roomScreen__item {
+  margin-bottom: 12px;
+  background: #fff;
+  border-radius: var(--borderRadius);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  padding: 10px;
+}
+
+@media (max-width: 480px) {
+  .roomScreen {
+    max-width: 98vw;
+    padding: 8px;
+  }
+}

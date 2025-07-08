@@ -1,0 +1,42 @@
+.roomCard {
+  margin-bottom: 12px;
+  background: #fff;
+  border-radius: var(--borderRadius);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  padding: 10px;
+}
+
+.roomCard__btn {
+  background: none;
+  border: none;
+  color: var(--accent);
+  font-size: 1.1rem;
+  cursor: pointer;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.roomCard__btn:disabled {
+  color: #aaa;
+  cursor: not-allowed;
+}
+
+.roomCard__users {
+  font-size: 0.95rem;
+  color: var(--mainText);
+}
+
+.roomCard__usersList {
+  margin-top: 4px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.roomCard__user {
+  background: var(--accent);
+  color: #fff;
+  border-radius: 8px;
+  padding: 2px 8px;
+  font-size: 0.95rem;
+}

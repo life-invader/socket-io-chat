@@ -1,0 +1,29 @@
+.sendMessage {
+  display: flex;
+  gap: 8px;
+  padding: 12px;
+  border-top: 1px solid #eee;
+}
+
+.sendMessage__input {
+  flex: 1;
+  padding: var(--inputPadding);
+  border-radius: var(--borderRadius);
+  border: 1px solid var(--accent);
+  font-size: 1rem;
+}
+
+.sendMessage__sendBtn {
+  padding: var(--inputPadding);
+  border-radius: var(--borderRadius);
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.sendMessage__sendBtn:hover {
+  background: #356ad8;
+}

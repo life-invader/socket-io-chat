@@ -51,6 +51,7 @@ export function SelectUser({ availableUsers }) {
         <option value="" disabled>
           -- Выберите --
         </option>
+
         {availableUsers.map((user) => (
           <option key={user} value={user.name}>
             {user}
