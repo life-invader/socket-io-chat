@@ -1,10 +1,10 @@
 import { useEffect, useRef } from 'react';
 import { SendMessage } from '@features/message/sendMessage';
 import { MessageCard } from '@entities/message';
+import { useRoomStore } from '@entities/room';
 import { selectUser, useUserStore } from '@entities/user';
 import { useMessageStore } from '@shared/model/store/messageSlice';
 import { subscribeMessages } from '@shared/model/socket/messageService';
-import { useRoomStore } from '@shared/model/store/roomSlice';
 import './style.css';
 
 export const ChatScreen = () => {

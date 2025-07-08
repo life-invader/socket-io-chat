@@ -3,7 +3,7 @@
  */
 
 import { useState } from 'react';
-import { roomStore } from '@shared/model/store';
+import { selectSetRoom, useRoomStore } from '@entities/room';
 import { roomService } from '@shared/model/socket';
 import './style.css';
 
@@ -18,7 +18,7 @@ import './style.css';
  * @returns {JSX.Element}
  */
 export function CreateRoom() {
-  const setRoom = roomStore.useRoomStore(roomStore.selectSetRoom);
+  const setRoom = useRoomStore(selectSetRoom);
   const [newRoom, setNewRoom] = useState('');
 
   /**

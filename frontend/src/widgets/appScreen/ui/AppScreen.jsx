@@ -1,10 +1,10 @@
-import { appStore } from '@shared/model/store';
+import { selectAppState, useAppStore } from '@shared/model/store';
 import { ChatScreen } from '@widgets/chatScreen';
 import { HomeScreen } from '@widgets/homeScreen';
 import { RoomScreen } from '@widgets/roomScreen';
 
 export const AppScreen = () => {
-  const appState = appStore.useAppStore(appStore.selectAppState);
+  const appState = useAppStore(selectAppState);
 
   const components = {
     home: HomeScreen,

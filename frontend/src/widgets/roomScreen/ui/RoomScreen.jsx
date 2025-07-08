@@ -1,15 +1,22 @@
 import { useEffect } from 'react';
-import { CreateRoom } from '@features/room/createRoom/ui/CreateRoom';
-import { roomActions, RoomCard } from '@entities/room';
-import { appStore, roomStore } from '@shared/model/store';
+import { CreateRoom } from '@features/room/createRoom';
+import {
+  roomActions,
+  RoomCard,
+  selectRooms,
+  selectSetRoom,
+  selectSetRooms,
+  useRoomStore,
+} from '@entities/room';
+import { selectSetAppState, useAppStore } from '@shared/model/store';
 import { roomService } from '@shared/model/socket';
 import './style.css';
 
 export const RoomScreen = () => {
-  const rooms = roomStore.useRoomStore(roomStore.selectRooms);
-  const setRoom = roomStore.useRoomStore(roomStore.selectSetRoom);
-  const setRooms = roomStore.useRoomStore(roomStore.selectSetRooms);
-  const setAppState = appStore.useAppStore(appStore.selectSetAppState);
+  const setAppState = useAppStore(selectSetAppState);
+  const rooms = useRoomStore(selectRooms);
+  const setRoom = useRoomStore(selectSetRoom);
+  const setRooms = useRoomStore(selectSetRooms);
 
   /**
    * Обработка выбора комнаты
