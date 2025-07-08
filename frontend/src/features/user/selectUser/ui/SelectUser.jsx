@@ -3,7 +3,8 @@
  */
 
 import { useState } from 'react';
-import { appStore, userStore } from '@shared/model/store';
+import { selectSetUser, useUserStore } from '@entities/user';
+import { appStore } from '@shared/model/store';
 import { userService } from '@shared/model/socket';
 import './style.css';
 
@@ -20,7 +21,7 @@ import './style.css';
  */
 export function SelectUser({ availableUsers }) {
   const setAppState = appStore.useAppStore(appStore.selectSetAppState);
-  const setUser = userStore.useUserStore(userStore.selectSetUser);
+  const setUser = useUserStore(selectSetUser);
   const [selected, setSelected] = useState('');
 
   /**

@@ -1,1 +1,2 @@
-export * as userActions from './api/actions';
+export * from './api/actions';
+export * from './model/store';
