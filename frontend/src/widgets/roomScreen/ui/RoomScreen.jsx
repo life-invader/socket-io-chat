@@ -1,22 +1,15 @@
 import { useEffect } from 'react';
+import { useShallow } from 'zustand/react/shallow';
 import { CreateRoom } from '@features/room/createRoom';
-import {
-  roomActions,
-  RoomCard,
-  selectRooms,
-  selectSetRoom,
-  selectSetRooms,
-  useRoomStore,
-} from '@entities/room';
+import { roomActions, RoomCard, useRoomStore } from '@entities/room';
 import { selectSetAppState, useAppStore } from '@shared/model/store';
 import { roomService } from '@shared/model/socket';
+import { selectRoomSliceData } from '../model/selectors';
 import './style.css';
 
 export const RoomScreen = () => {
   const setAppState = useAppStore(selectSetAppState);
-  const rooms = useRoomStore(selectRooms);
-  const setRoom = useRoomStore(selectSetRoom);
-  const setRooms = useRoomStore(selectSetRooms);
+  const { rooms, setRoom, setRooms } = useRoomStore(useShallow(selectRoomSliceData));
 
   /**
    * Обработка выбора комнаты
