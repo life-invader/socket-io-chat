@@ -3,9 +3,6 @@
  */
 
 import { useState } from 'react';
-import { selectSetUser, useUserStore } from '@entities/user';
-import { userService } from '@shared/model/socket';
-import { selectSetAppState, useAppStore } from '@shared/model/store';
 import './style.css';
 
 /**
@@ -19,24 +16,20 @@ import './style.css';
  * @param {UserSelectProps} props
  * @returns {JSX.Element}
  */
-export function SelectUser({ availableUsers }) {
-  const setAppState = useAppStore(selectSetAppState);
-  const setUser = useUserStore(selectSetUser);
+export function SelectUser({ availableUsers, onUserChange }) {
   const [selected, setSelected] = useState('');
 
   /**
    * Обработка выбора пользователя
    * @param {React.ChangeEvent<HTMLSelectElement>} e
    */
-  function handleChange(evt) {
+  const handleChange = (evt) => {
     const { target } = evt;
     const value = target.value;
 
     setSelected(value);
-    setUser(value);
-    userService.joinUser(value);
-    setAppState('room');
-  }
+    onUserChange(value);
+  };
 
   return (
     <div className="userSelect">

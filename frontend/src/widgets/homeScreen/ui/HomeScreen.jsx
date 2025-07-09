@@ -3,11 +3,22 @@ import { useShallow } from 'zustand/react/shallow';
 import { SelectUser } from '@features/user/selectUser';
 import { useUserStore } from '@entities/user';
 import { userService } from '@shared/model/socket';
+import { selectSetAppState, useAppStore } from '@shared/model/store';
+import { APP_STATE } from '@shared/constants';
 import { selectUserSliceData } from '../model/selectors';
 import './style.css';
 
 export const HomeScreen = () => {
-  const { availableUsers, setAvailableUsers } = useUserStore(useShallow(selectUserSliceData));
+  const setAppState = useAppStore(selectSetAppState);
+  const { availableUsers, setAvailableUsers, setUser } = useUserStore(
+    useShallow(selectUserSliceData),
+  );
+
+  const userChangeHandler = (user) => {
+    userService.joinUser(user);
+    setUser(user);
+    setAppState(APP_STATE.room);
+  };
 
   useEffect(() => {
     const unsubscribe = userService.subscribeUsersUpdate(setAvailableUsers);
@@ -19,7 +30,7 @@ export const HomeScreen = () => {
 
   return (
     <div className="homeScreen">
-      <SelectUser availableUsers={availableUsers} />
+      <SelectUser availableUsers={availableUsers} onUserChange={userChangeHandler} />
     </div>
   );
 };

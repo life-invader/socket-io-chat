@@ -22,11 +22,13 @@ export const RoomScreen = () => {
    * Обработка выбора комнаты
    * @param {string} roomName
    */
-  function handleSelect(roomName) {
-    roomService.joinRoom(roomName);
-    setRoom(roomName);
-    setAppState('chat');
-  }
+  const handleSelect = (roomName) => {
+    return () => {
+      roomService.joinRoom(roomName);
+      setRoom(roomName);
+      setAppState('chat');
+    };
+  };
 
   useEffect(() => {
     roomActions.fetchRooms().then(setRooms);
@@ -44,7 +46,7 @@ export const RoomScreen = () => {
       <ul className="roomScreen__list">
         {Object.entries(rooms).map(([room, users]) => (
           <li key={room} className="roomScreen__item">
-            <RoomCard onClick={() => handleSelect(room)} roomName={room} users={users} />
+            <RoomCard onClick={handleSelect(room)} roomName={room} users={users} />
           </li>
         ))}
       </ul>
