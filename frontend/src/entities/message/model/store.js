@@ -19,11 +19,17 @@ import { create } from 'zustand';
  */
 
 export const useMessageStore = create((set) => ({
+  // State
   messages: [],
-  addMessage: (msg) =>
-    set((state) => {
-      console.log(state);
-      return { messages: [...state.messages, msg] };
-    }),
+
+  // Actions
+  addMessage: (msg) => set((state) => ({ messages: [...state.messages, msg] })),
   clearMessages: () => set({ messages: [] }),
 }));
+
+// State selectors
+export const selectMessages = (store) => store.messages;
+
+// Action selectors
+export const selectAddMessage = (store) => store.addMessage;
+export const selectClearMessages = (store) => store.clearMessages;
