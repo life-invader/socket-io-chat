@@ -15,7 +15,7 @@ function initSocket(io) {
   io.on('connection', (socket) => {
     // Отправляем актуальные данные сразу при подключении
     socket.emit('users:update', getAvailableUsers(allUsers, userService.getActiveUsers()));
-    socket.emit('rooms:update', getRoomsInfo(roomService.getRooms()));
+    // socket.emit('rooms:update', getRoomsInfo(roomService.getRooms()));
 
     /**
      * Пользователь выбирает имя
@@ -40,6 +40,7 @@ function initSocket(io) {
 
       roomService.addUserToRoom(roomName, userName);
       socket.join(roomName);
+
       io.emit('rooms:update', getRoomsInfo(roomService.getRooms()));
     });
 

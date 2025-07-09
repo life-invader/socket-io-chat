@@ -3,6 +3,10 @@
  */
 import { socket } from './index';
 
+export function getRoomMessages(roomName) {
+  socket.emit('message', { roomName });
+}
+
 /**
  * Подписаться на новые сообщения в комнате
  * @param {(msg: object) => void} cb

@@ -3,8 +3,6 @@
  */
 
 import { useState } from 'react';
-import { selectSetRoom, useRoomStore } from '@entities/room';
-import { roomService } from '@shared/model/socket';
 import './style.css';
 
 /**
@@ -17,28 +15,30 @@ import './style.css';
  * @param {RoomListProps} props
  * @returns {JSX.Element}
  */
-export function CreateRoom() {
-  const setRoom = useRoomStore(selectSetRoom);
+export function CreateRoom({ onRoomCreate }) {
   const [newRoom, setNewRoom] = useState('');
+
+  const onInputChange = (evt) => {
+    setNewRoom(evt.target.value);
+  };
 
   /**
    * Обработка создания новой комнаты
    * @param {React.FormEvent} e
    */
-  function handleCreate(e) {
-    e.preventDefault();
+  const handleCreate = (evt) => {
+    evt.preventDefault();
 
-    roomService.joinRoom(newRoom);
+    onRoomCreate(newRoom);
     setNewRoom('');
-    setRoom(newRoom);
-  }
+  };
 
   return (
     <form className="createRoom" onSubmit={handleCreate}>
       <input
         className="createRoom__input"
         value={newRoom}
-        onChange={(e) => setNewRoom(e.target.value)}
+        onChange={onInputChange}
         placeholder="Новая комната"
       />
 
