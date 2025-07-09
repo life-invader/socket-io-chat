@@ -5,15 +5,17 @@
   font-size: 1rem;
   color: var(--mainText);
   align-self: flex-start;
-  max-width: 80%;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
   position: relative;
+  display: flex;
+  width: fit-content;
 }
 
 .messageCard--own {
   background: var(--accent);
   color: #fff;
   align-self: flex-end;
+  margin-left: auto;
 }
 
 .messageCard__user {
@@ -25,4 +27,8 @@
   font-size: 0.85rem;
   color: #888;
   margin-left: 8px;
+}
+
+.messageCard--own .messageCard__time {
+  color: #fff;
 }

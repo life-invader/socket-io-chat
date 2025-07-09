@@ -1,8 +1,6 @@
 import './style.css';
 
 export const MessageCard = ({ msg, user }) => {
-  console.log(user);
-  console.log(msg);
   return (
     <div className={`messageCard ${msg.user === user ? 'messageCard--own' : ''}`}>
       <span className="messageCard__user">{msg.user}:</span> {msg.message}

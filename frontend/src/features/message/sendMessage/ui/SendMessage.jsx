@@ -3,7 +3,6 @@
  */
 
 import { useState } from 'react';
-import { sendMessage } from '@shared/model/socket/messageService';
 import './style.css';
 
 /**
@@ -17,27 +16,31 @@ import './style.css';
  * @param {ChatProps} props
  * @returns {JSX.Element}
  */
-export function SendMessage({ room }) {
+export function SendMessage({ onMessageSend }) {
   const [input, setInput] = useState('');
+
+  const inputChangeHandler = (evt) => {
+    setInput(evt.target.value);
+  };
 
   /**
    * Отправка сообщения
    * @param {React.FormEvent} e
    */
-  function handleSend(e) {
-    e.preventDefault();
-
+  const handleSend = (evt) => {
+    evt.preventDefault();
     if (!input.trim()) return;
-    sendMessage(room, input);
+
+    onMessageSend(input);
     setInput('');
-  }
+  };
 
   return (
     <form className="sendMessage" onSubmit={handleSend}>
       <input
         className="sendMessage__input"
         value={input}
-        onChange={(e) => setInput(e.target.value)}
+        onChange={inputChangeHandler}
         placeholder="Введите сообщение..."
       />
 
