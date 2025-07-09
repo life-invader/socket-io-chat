@@ -43,8 +43,8 @@ export const RoomScreen = () => {
 
       <ul className="roomScreen__list">
         {Object.entries(rooms).map(([room, users]) => (
-          <li className="roomScreen__item">
-            <RoomCard onClick={() => handleSelect(room)} users={users} />
+          <li key={room} className="roomScreen__item">
+            <RoomCard onClick={() => handleSelect(room)} roomName={room} users={users} />
           </li>
         ))}
       </ul>

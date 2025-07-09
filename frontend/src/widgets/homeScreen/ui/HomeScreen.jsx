@@ -1,27 +1,21 @@
 import { useEffect } from 'react';
+import { useShallow } from 'zustand/react/shallow';
 import { SelectUser } from '@features/user/selectUser';
-import {
-  selectAvailableUsers,
-  selectGetAvailableUsers,
-  selectSetAvailableUsers,
-  useUserStore,
-} from '@entities/user';
+import { useUserStore } from '@entities/user';
 import { userService } from '@shared/model/socket';
+import { selectUserSliceData } from '../model/selectors';
 import './style.css';
 
 export const HomeScreen = () => {
-  const getAvailableUsers = useUserStore(selectGetAvailableUsers);
-  const availableUsers = useUserStore(selectAvailableUsers);
-  const setAvailableUsers = useUserStore(selectSetAvailableUsers);
+  const { availableUsers, setAvailableUsers } = useUserStore(useShallow(selectUserSliceData));
 
   useEffect(() => {
-    getAvailableUsers();
     const unsubscribe = userService.subscribeUsersUpdate(setAvailableUsers);
 
     return () => {
       unsubscribe();
     };
-  }, [getAvailableUsers, setAvailableUsers]);
+  }, [setAvailableUsers]);
 
   return (
     <div className="homeScreen">

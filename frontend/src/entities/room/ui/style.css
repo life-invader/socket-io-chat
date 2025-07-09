@@ -1,24 +1,18 @@
 .roomCard {
-  margin-bottom: 12px;
   background: #fff;
   border-radius: var(--borderRadius);
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
   padding: 10px;
-}
-
-.roomCard__btn {
-  background: none;
   border: none;
   color: var(--accent);
   font-size: 1.1rem;
   cursor: pointer;
   font-weight: bold;
-  margin-bottom: 4px;
-}
-
-.roomCard__btn:disabled {
-  color: #aaa;
-  cursor: not-allowed;
+  display: block;
+  width: 100%;
+  text-align: left;
+  display: grid;
+  gap: 8px;
 }
 
 .roomCard__users {

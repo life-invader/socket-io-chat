@@ -1,19 +1,21 @@
 import './style.css';
 
-export const RoomCard = ({ onClick, users }) => {
+export const RoomCard = ({ onClick, roomName, users = [] }) => {
   return (
-    <div className="roomCard">
-      <button className="roomCard__btn" onClick={onClick}>
-        <span className="roomCard__users">({users.length} чел.)</span>
-      </button>
+    <button className="roomCard" onClick={onClick}>
+      {roomName && <p className="roomCard__name">{roomName}</p>}
 
-      <div className="roomCard__usersList">
-        {users.map((item) => (
-          <span key={item} className="roomCard__user">
-            {item}
-          </span>
-        ))}
-      </div>
-    </div>
+      <span className="roomCard__users">({users.length} чел.)</span>
+
+      {!!users.length && (
+        <div className="roomCard__usersList">
+          {users.map((item) => (
+            <span key={item} className="roomCard__user">
+              {item}
+            </span>
+          ))}
+        </div>
+      )}
+    </button>
   );
 };
