@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { CreateRoom } from '@features/room/createRoom';
-import { roomActions, RoomCard, useRoomStore } from '@entities/room';
+import { RoomCard, useRoomStore } from '@entities/room';
 import { selectSetAppState, useAppStore } from '@shared/model/store';
 import { roomService } from '@shared/model/socket';
 import { APP_STATE } from '@shared/constants';
@@ -12,10 +12,17 @@ export const RoomScreen = () => {
   const setAppState = useAppStore(selectSetAppState);
   const { rooms, setRoom, setRooms } = useRoomStore(useShallow(selectRoomSliceData));
 
+  const joinRoom = (roomName) => {
+    roomService.joinRoom(roomName, ({ isSuccess }) => {
+      if (isSuccess) {
+        setRoom(roomName);
+        setAppState(APP_STATE.chat);
+      }
+    });
+  };
+
   const createRoomHandler = (roomName) => {
-    roomService.joinRoom(roomName);
-    setRoom(roomName);
-    setAppState(APP_STATE.chat);
+    joinRoom(roomName);
   };
 
   /**
@@ -24,14 +31,15 @@ export const RoomScreen = () => {
    */
   const handleRoomSelect = (roomName) => {
     return () => {
-      roomService.joinRoom(roomName);
-      setRoom(roomName);
-      setAppState(APP_STATE.chat);
+      joinRoom(roomName);
     };
   };
 
   useEffect(() => {
-    roomActions.fetchRooms().then(setRooms);
+    roomService.fetchRooms((rooms) => {
+      setRooms(rooms);
+    });
+
     const unsub = roomService.subscribeRoomsUpdate(setRooms);
 
     return () => {

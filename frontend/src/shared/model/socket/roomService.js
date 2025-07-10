@@ -17,6 +17,10 @@ export function subscribeRoomsUpdate(cb) {
  * Войти в комнату (или создать новую)
  * @param {string} roomName
  */
-export function joinRoom(roomName) {
-  socket.emit('room:join', roomName);
+export function joinRoom(roomName, cb = () => {}) {
+  socket.emit('room:join', roomName, cb);
+}
+
+export function fetchRooms(cb) {
+  socket.emit('room:fetch', cb);
 }

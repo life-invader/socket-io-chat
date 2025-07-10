@@ -15,9 +15,12 @@ export const HomeScreen = () => {
   );
 
   const userChangeHandler = (user) => {
-    userService.joinUser(user);
-    setUser(user);
-    setAppState(APP_STATE.room);
+    userService.joinUser(user, ({ isSuccess }) => {
+      if (isSuccess) {
+        setUser(user);
+        setAppState(APP_STATE.room);
+      }
+    });
   };
 
   useEffect(() => {

@@ -20,7 +20,7 @@ function initSocket(io) {
     /**
      * Пользователь выбирает имя
      */
-    socket.on('user:join', (userName) => {
+    socket.on('user:join', (userName, callback) => {
       if (userService.isUserActive(userName)) {
         socket.emit('user:join:error', 'Пользователь уже занят');
         return;
@@ -28,18 +28,28 @@ function initSocket(io) {
 
       userService.addActiveUser(userName, socket.id);
       socket.data.userName = userName;
+      callback({ isSuccess: true });
+
       io.emit('users:update', getAvailableUsers(allUsers, userService.getActiveUsers()));
     });
 
     /**
      * Пользователь заходит в комнату
      */
-    socket.on('room:join', (roomName) => {
+    socket.on('room:fetch', (callback) => {
+      callback(getRoomsInfo(roomService.getRooms()));
+    });
+
+    /**
+     * Пользователь заходит в комнату
+     */
+    socket.on('room:join', (roomName, callback) => {
       const userName = socket.data.userName;
       if (!userName) return;
 
       roomService.addUserToRoom(roomName, userName);
       socket.join(roomName);
+      callback({ isSuccess: true });
 
       io.emit('rooms:update', getRoomsInfo(roomService.getRooms()));
     });

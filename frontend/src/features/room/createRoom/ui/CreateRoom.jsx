@@ -29,8 +29,10 @@ export function CreateRoom({ onRoomCreate }) {
   const handleCreate = (evt) => {
     evt.preventDefault();
 
-    onRoomCreate(newRoom);
-    setNewRoom('');
+    if (newRoom.trim()) {
+      onRoomCreate(newRoom);
+      setNewRoom('');
+    }
   };
 
   return (

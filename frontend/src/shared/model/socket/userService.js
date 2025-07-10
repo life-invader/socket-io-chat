@@ -16,6 +16,6 @@ export function subscribeUsersUpdate(cb) {
  * Сообщить серверу о выборе пользователя
  * @param {string} userName
  */
-export function joinUser(userName) {
-  socket.emit('user:join', userName);
+export function joinUser(userName, cb) {
+  socket.emit('user:join', userName, cb);
 }
