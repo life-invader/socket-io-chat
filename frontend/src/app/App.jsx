@@ -3,16 +3,23 @@
  */
 
 import { MainPage } from '@pages/main/MainPage';
-import './style/index.css';
 import { useSocketConnect } from '@shared/model/socket/hooks';
+import { ConnectionStatus } from '@shared/ui/connectionStatus';
+import './style/index.css';
 
 /**
  * App — основной компонент приложения
  * @returns {JSX.Element}
  */
 const App = () => {
-  useSocketConnect();
-  return <MainPage />;
+  const isOnline = useSocketConnect();
+
+  return (
+    <>
+      <MainPage />
+      <ConnectionStatus isOnline={isOnline} />
+    </>
+  );
 };
 
 export default App;

@@ -1,0 +1,13 @@
+.connectionStatus {
+  position: fixed;
+  top: 100px;
+  right: 100px;
+  width: 16px;
+  height: 16px;
+  background-color: #ff0000;
+  border-radius: 50%;
+}
+
+.connectionStatus--isOnline {
+  background-color: #00fc3f;
+}
