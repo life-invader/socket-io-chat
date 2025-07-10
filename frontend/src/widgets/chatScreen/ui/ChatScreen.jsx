@@ -7,11 +7,12 @@ import { selectUser, useUserStore } from '@entities/user';
 import { sendMessage, subscribeMessages } from '@shared/model/socket/messageService';
 import { selectMessageSliceData } from '../model/selectors';
 import './style.css';
+import { messageService } from '@shared/model/socket';
 
 export const ChatScreen = () => {
   const user = useUserStore(selectUser);
   const room = useRoomStore(selectRoom);
-  const { messages, addMessage, clearMessages } = useMessageStore(
+  const { messages, addMessage, addMessages, clearMessages } = useMessageStore(
     useShallow(selectMessageSliceData),
   );
 
@@ -21,6 +22,7 @@ export const ChatScreen = () => {
 
   useEffect(() => {
     clearMessages();
+    messageService.getRoomMessages(room, addMessages);
     const unsub = subscribeMessages(addMessage);
 
     return () => {

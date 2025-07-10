@@ -24,6 +24,7 @@ export const useMessageStore = create((set) => ({
 
   // Actions
   addMessage: (msg) => set((state) => ({ messages: [...state.messages, msg] })),
+  addMessages: (messages) => set({ messages }),
   clearMessages: () => set({ messages: [] }),
 }));
 
@@ -32,4 +33,5 @@ export const selectMessages = (store) => store.messages;
 
 // Action selectors
 export const selectAddMessage = (store) => store.addMessage;
+export const selectAddMessages = (store) => store.addMessages;
 export const selectClearMessages = (store) => store.clearMessages;

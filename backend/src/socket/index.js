@@ -61,11 +61,26 @@ function initSocket(io) {
       const userName = socket.data.userName;
       if (!userName || !roomName) return;
 
+      const time = new Date().toISOString();
+      roomService.addMessageToRoom(roomName, userName, message, time);
+
       io.to(roomName).emit('message', {
         user: userName,
         message,
-        time: new Date().toISOString(),
+        time,
       });
+    });
+
+    /**
+     * Получение истории сообщений комнаты
+     */
+    socket.on('room:messages', (roomName, callback) => {
+      /**
+       * @param {string} roomName
+       * @param {(messages: Array<{ user: string, message: string, time: string }>) => void} callback
+       */
+      const messages = roomService.getRoomMessages(roomName);
+      callback(messages);
     });
 
     /**
