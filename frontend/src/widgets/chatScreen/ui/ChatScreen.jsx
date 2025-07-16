@@ -6,8 +6,8 @@ import { selectRoom, useRoomStore } from '@entities/room';
 import { selectUser, useUserStore } from '@entities/user';
 import { sendMessage, subscribeMessages } from '@shared/model/socket/messageService';
 import { selectMessageSliceData } from '../model/selectors';
-import './style.css';
 import { messageService } from '@shared/model/socket';
+import './style.css';
 
 export const ChatScreen = () => {
   const user = useUserStore(selectUser);
@@ -28,8 +28,7 @@ export const ChatScreen = () => {
     return () => {
       unsub();
     };
-    // eslint-disable-next-line
-  }, [addMessage, clearMessages]);
+  }, [addMessage, addMessages, clearMessages, room]);
 
   return (
     <div className="chatScreen">
